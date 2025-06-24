@@ -83,14 +83,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="trabalho: ${trabalhos}" th:onclick="|window.location.href='@{/8 - info-trabalho-concluidos/{id}(id=${trabalho.id})}'|">
+                        <tr th:each="trabalho: ${trabalhos}" th:onclick="|window.location.href='@{/info-trabalho-concluidos/{id}(id=${trabalho.id})}'|">
                             <td th:text="${trabalho.id}" ></td>
-                            <td th:text="${trabalho.transportadora}" th:onclick="|window.location.href='@{/7 - info-trabalho}'|"></td>
-                            <td th:text="${trabalho.operacao}" th:onclick="|window.location.href='@{/7 - info-trabalho}'|"></td>
-                            <td th:text="${trabalho.qt_container}" th:onclick="|window.location.href='@{/7 - info-trabalho}'|"></td>
-                            <td th:text="${trabalho.janelas}" th:onclick="|window.location.href='@{/7 - info-trabalho}'|"></td>
-                            <td th:text="${#temporals.format(trabalho.dt_recebimento, 'dd/MM/yyyy HH:mm')}" th:onclick="|window.location.href='@{/7 - info-trabalho}'|"></td>
-                            <td th:text="${#temporals.format(trabalho.dt_termino, 'dd/MM/yyyy HH:mm')}" th:onclick="|window.location.href='@{/7 - info-trabalho}'|"></td>
+                            <td th:text="${trabalho.transportadora}" th:onclick="|window.location.href='@{/info-trabalho}'|"></td>
+                            <td th:text="${trabalho.operacao}" th:onclick="|window.location.href='@{/info-trabalho}'|"></td>
+                            <td th:text="${trabalho.qt_container}" th:onclick="|window.location.href='@{/info-trabalho}'|"></td>
+                            <td th:text="${trabalho.janelas}" th:onclick="|window.location.href='@{/info-trabalho}'|"></td>
+                            <td th:text="${#temporals.format(trabalho.dt_recebimento, 'dd/MM/yyyy HH:mm')}" th:onclick="|window.location.href='@{/info-trabalho}'|"></td>
+                            <td th:text="${#temporals.format(trabalho.dt_termino, 'dd/MM/yyyy HH:mm')}" th:onclick="|window.location.href='@{/info-trabalho}'|"></td>
                             <td>
                                 <button class="btn-editar" th:data-id="${trabalho.id}" onclick="event.stopPropagation();"><i class="fa-solid fa-pen"></i></button>
                             </td>
