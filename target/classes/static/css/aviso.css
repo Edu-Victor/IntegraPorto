@@ -1,0 +1,108 @@
+.avisos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding-top: 15px;
+}
+
+.aviso-card {
+    background-color: var(--fundo-tabelas);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px var(--sombra-tabela);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aviso-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.aviso-card h3 {
+    font-size: 1.2rem;
+    color: var(--text-main-color);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.aviso-card p {
+    font-size: 0.9rem;
+    color: var(--text-main-color);
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.aviso-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 15px;
+}
+
+.btn-editar-aviso, .btn-excluir-aviso {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-editar-aviso {
+    color: var(--blue-accent);
+}
+
+.btn-excluir-aviso {
+    color: var(--red-accent);
+}
+
+.btn-editar-aviso:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.btn-excluir-aviso:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.btn-editar-aviso i, .btn-excluir-aviso i {
+    font-size: 1rem;
+}
+
+.container-modal .form-group input, .container-modal .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: var(--body-bg);
+}
+
+.container-modal .form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.aviso-card p {
+    font-size: 0.9rem;
+    color: var(--text-main-color);
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}

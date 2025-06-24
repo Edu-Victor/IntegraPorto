@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Trabalhos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/62178003c7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="no-transition">
+
+    <nav id="sidenav" class="sidenav">
+        <div>
+            <a th:href="@{/index}" class="logo-link">
+                <span class="logo">IntegraPorto</span>
+            </a>
+
+            <div class="sidenav-item">
+                <a class="sidenav-dropdown-toggle">
+                    <i class="fa-solid fa-address-card"></i>
+                    <span>Cadastros</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+                </a>
+                <div class="submenu-container">
+                    <a th:href="@{/cadastromotorista}" class="submenu-link">Motoristas</a>
+                    <a th:href="@{/cadastrotrabalho}" class="submenu-link">Trabalhos</a>
+                </div>
+            </div>
+
+            <div class="sidenav-item">
+                <a class="sidenav-dropdown-toggle">
+                    <i class="fa-solid fa-list"></i>
+                    <span>Serviços</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+                </a>
+                <div class="submenu-container">
+                    <a th:href="@{/emandamento}" class="submenu-link">Em Andamento</a>
+                    <a th:href="@{/concluidos}" class="submenu-link">Concluídos</a>
+                </div>
+            </div>
+
+            </div>
+
+        <form th:action="@{/logout}" method="post" class="icon-exit">
+            <button type="submit" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Sair</span>
+            </button>
+        </form>
+    </nav>
+
+    <main id="main-content" class="main-content">
+        <button id="toggle-btn" class="control-btn toggle-btn">
+            <i class="material-icons">menu</i>
+        </button>
+        <button id="theme-toggle" class="control-btn theme-toggle">
+            <i class="material-icons">dark_mode</i>
+        </button>
+
+        <header>
+            <h1>Painel de Cadastro de Trabalhos</h1>
+            <p>Registre os detalhes de cada novo trabalho para um controle eficiente das operações</p>
+            <div id="modal-sucesso" class="modal-sucesso toast-sucesso">
+                <i class="fas fa-check-circle"></i> Trabalho inserido com sucesso!
+            </div>
+        </header>
+
+        <section>
+            <div class="header-section">
+                <h2>Novo Trabalho</h2>
+            </div>
+            
+            <div class="form-container">
+                <form th:action="@{/trabalhos/adicionar}" method="post" th:object="${trabalho}" onsubmit="formatarValor('valor')">
+                    <div class="form-group-main full-width-grid">
+                        <label for="transportadora">Transportadora:</label>
+                        <input type="text" id="transportadora" name="transportadora" placeholder="Ex: LogiMax Transportes" required>
+                    </div>
+
+                    <div class="form-group-main">
+                        <label for="booking">Booking:</label>
+                        <input type="text" id="booking" name="booking" placeholder="Ex: BK12345678" maxlength="12" required>
+                    </div>
+                    <div class="form-group-main">
+                        <label for="navio">Navio:</label>
+                        <input type="text" id="navio" name="navio" placeholder="Ex: MSC Fantasia" required>
+                    </div>
+
+                    <div class="form-group-main">
+                        <label for="operacao">Tipo de Operação:</label>
+                        <select id="operacao" name="operacao" required>
+                            <option value="" disabled selected>Selecione a operação</option>
+                            <option value="Descarga Intermunicipal">Descarga Intermunicipal</option>
+                            <option value="Descarga Municipal">Descarga Municipal</option>
+                            <option value="Remoção Intermunicipal">Remoção Intermunicipal</option>
+                            <option value="Remoção Municipal">Remoção Municipal</option>
+                            <option value="Embarque Intermunicipal">Embarque Intermunicipal</option>
+                            <option value="Embarque Municipal">Embarque Municipal</option>
+                            <option value="Smagalhaes Intermunicipal">Smagalhaes Intermunicipal</option>
+                            <option value="Smagalhaes Municipal">Smagalhaes Municipal</option>
+                            <option value="Genset Intermunicipal">Genset Intermunicipal</option>
+                            <option value="Genset Municipal">Genset Municipal</option>
+                            <option value="Isotanque">Isotanque</option>
+                            <option value="Rodoviário">Rodoviário</option>
+                            <option value="Cross/Azlog">Cross/Azlog</option>
+                            <option value="Off Hire">Off Hire</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group-main">
+                        <label for="tipo_container">Tipo de Contêiner:</label>
+                        <select id="tipo_container" name="tipo_container" required>
+                            <option value="" disabled selected>Selecione um tipo</option>
+                            <option value="20HC">20HC</option>
+                            <option value="40HC">40HC</option>
+                            <option value="45HC">45HC</option>
+                            <option value="Reefer 20HC">Reefer 20HC (Refrigerado)</option>
+                            <option value="Reefer 40HC">Reefer 40HC (Refrigerado)</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group-main">
+                        <label for="coleta">Local de Coleta:</label>
+                        <input class="form-group-input" type="text" id="coleta" name="coleta" placeholder="Ex: Pátio A, Armazém 2" required>
+                    </div>
+                    
+                    <div class="form-group-main">
+                        <label for="entrega">Local de Entrega:</label>
+                        <input type="text" id="entrega" name="entrega" placeholder="Ex: Cliente Final, Porto de Santos" required>
+                    </div>
+
+                    <div class="form-group-main">
+                        <label for="dt_recebimento">Data e Hora de Recebimento:</label>
+                        <input type="datetime-local" id="dt_recebimento" name="dt_recebimento" required>
+                    </div>
+
+                    <div class="form-group-main">
+                        <label for="dt_termino">Data e Hora de Término:</label>
+                        <input type="datetime-local" id="dt_termino" name="dt_termino" required>
+                    </div>
+
+                    <div class="form-group-main">
+                        <label for="janelas">Janelas por Hora:</label>
+                        <input type="number" id="janelas" name="janelas" placeholder="Ex: 10" required>
+                    </div>
+
+                    <div class="form-group-main">
+                        <label for="qt_container">Quantidade de Contêineres:</label>
+                        <input type="number" id="qt_container" name="qt_container" min="1" value="1" required>
+                    </div>
+
+                    <div class="form-group-main full-width-grid">
+                        <label for="valor">Valor do Frete (R$):</label>
+                        <input type="text" id="valor" name="valor" placeholder="Ex: 1250.50" oninput="formatarInput(this)" onfocus="formatarInput(this)" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">
+                            <i class="fa-solid fa-check"></i>
+                            Cadastrar Trabalho
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/modais.js}"></script>
+    <script th:src="@{/js/copiar.js}"></script>
+    <script th:src="@{/js/formatarValores.js}"></script>
+    
+
+</body>
+</html>

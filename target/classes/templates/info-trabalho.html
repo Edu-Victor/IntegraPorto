@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Trabalho</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/62178003c7.js" crossorigin="anonymous"></script>
+</head>
+<body class="no-transition">
+
+    <nav id="sidenav" class="sidenav">
+        <div>
+            <a th:href="@{/index}" class="logo-link">
+                <span class="logo">IntegraPorto</span>
+            </a>
+
+            <div class="sidenav-item">
+                <a class="sidenav-dropdown-toggle">
+                    <i class="fa-solid fa-address-card"></i>
+                    <span>Cadastros</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+                </a>
+                <div class="submenu-container">
+                    <a th:href="@{/cadastromotorista}" class="submenu-link">Motoristas</a>
+                    <a th:href="@{/cadastrotrabalho}" class="submenu-link">Trabalhos</a>
+                </div>
+            </div>
+
+            <div class="sidenav-item">
+                <a class="sidenav-dropdown-toggle">
+                    <i class="fa-solid fa-list"></i>
+                    <span>Serviços</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+                </a>
+                <div class="submenu-container">
+                    <a th:href="@{/emandamento}" class="submenu-link">Em Andamento</a>
+                    <a th:href="@{/concluidos}" class="submenu-link">Concluídos</a>
+                </div>
+            </div>
+
+            </div>
+
+        <form th:action="@{/logout}" method="post" class="icon-exit">
+            <button type="submit" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Sair</span>
+            </button>
+        </form>
+    </nav>
+    
+    <main id="main-content" class="main-content">
+        <button id="toggle-btn" class="control-btn toggle-btn">
+            <i class="material-icons">menu</i>
+        </button>
+        <button id="theme-toggle" class="control-btn theme-toggle">
+            <i class="material-icons">dark_mode</i>
+        </button>
+
+        <header>
+            <h1>Painel de Detalhes dos Serviços em Andamento</h1>
+            <p>Consulte todos os detalhes e informações específicas relacionadas a este serviço.</p>
+        </header>
+
+        <section>
+            <div class="service-header-flat" th:if="${trabalhos != null}">
+                <h3>Detalhes do Serviço</h3>
+                <div class="service-details-grid" th:object="${trabalhos}">
+                    <div class="service-details-item">
+                        <strong>ID do Trabalho:</strong>
+                        <span th:text="*{id}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Transportadora:</strong>
+                        <span th:text="*{transportadora}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Booking:</strong>
+                        <span th:text="*{booking}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Navio:</strong>
+                        <span th:text="*{navio}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Operação:</strong>
+                        <span th:text="*{operacao}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Entrega:</strong>
+                        <span th:text="*{entrega}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Coleta:</strong>
+                        <span th:text="*{coleta}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Início:</strong>
+                        <span th:text="*{#temporals.format(dt_recebimento, 'dd/MM/yyyy HH:mm')}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Término:</strong>
+                        <span th:text="*{#temporals.format(dt_termino, 'dd/MM/yyyy HH:mm')}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Contêiner:</strong>
+                        <span th:text="*{tipo_container}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Quantidade:</strong>
+                        <span th:text="*{qt_container}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Janelas/Hora:</strong>
+                        <span th:text="*{janelas}"></span>
+                    </div>
+                    <div class="service-details-item">
+                        <strong>Valor (R$):</strong>
+                        <span th:text="${#numbers.formatDecimal(trabalhos.valor, 1, 'POINT', 2, 'COMMA')}" class="atualizar-valor"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-section">
+                <h2>Motoristas Escalados</h2>
+                <div class="container-botoes">
+                    <button class="btn-adicionar" th:onclick="|window.location.href='@{/4 - emandamento}'|">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Voltar
+                    </button>
+
+                    <form th:action="@{/trabalho/concluir/{id}(id=${trabalhos.id})}" method="post" th:if="${trabalhos != null}">
+                        <button class="btn-concluir" type="submit">
+                            <i class="fa-solid fa-check"></i>
+                            Concluir
+                        </button>
+                    </form>
+                    
+                </div>
+            </div>
+            
+            <div class="container-tabela">
+                <table class="tabela">
+                    <thead>
+                        <tr>
+                            <th>VAGA</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>CNH</th>
+                            <th>Placa Caminhão</th>
+                            <th>Placa Carreta</th>
+                            <th>Celular 1</th>
+                            <th>Celular 2</th>
+                            <th>Substituir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${!motoristas.empty}" th:each="motorista, i : ${motoristas}">
+                            <td th:text="${motorista.vaga}"></td>
+                            <td th:text="${motorista.nome}"></td>
+                            <td th:text="${#strings.substring(motorista.cpf, 0, 3) + '.' + #strings.substring(motorista.cpf, 3, 6) + '.' + #strings.substring(motorista.cpf, 6, 9) + '-' + #strings.substring(motorista.cpf, 9, 11)}"></td>
+                            <td th:text="${motorista.cnh}"></td>
+                            <td th:text="${#strings.substring(motorista.placaCaminhao, 0, 3) + '-' + #strings.substring(motorista.placaCaminhao, 3, 7)}"></td>
+                            <td th:text="${#strings.substring(motorista.placaCarreta, 0, 3) + '-' + #strings.substring(motorista.placaCarreta, 3, 7)}"></td>
+                            <td th:text="${'(' + #strings.substring(motorista.celular1, 0, 2) + ') ' + #strings.substring(motorista.celular1, 2, 7) + '-' + #strings.substring(motorista.celular1, 7, 11)}"></td>
+                            <td th:if="${motorista.celular2 != null and motorista.celular2 != ''}" th:text="${'(' + #strings.substring(motorista.celular2, 0, 2) + ') ' + #strings.substring(motorista.celular2, 2, 7) + '-' + #strings.substring(motorista.celular2, 7, 11)}"></td>
+                            <td th:unless="${motorista.celular2 != null and motorista.celular2 != ''}">-</td>
+                            <td>
+                                <button class="btn-substituir"
+                                        th:data-job-id="${trabalhos.id}"
+                                        th:data-trabalho-motorista-id="${trabalhoMotoristas != null and i.index < trabalhoMotoristas.size() ? trabalhoMotoristas[__${i.index}__].id : ''}"
+                                        th:data-current-driver-name="${motorista.nome}"
+                                        th:data-current-driver-vaga="${motorista.vaga}"
+                                        th:data-current-driver-cpf="${#strings.substring(motorista.cpf, 0, 3) + '.' + #strings.substring(motorista.cpf, 3, 6) + '.' + #strings.substring(motorista.cpf, 6, 9) + '-' + #strings.substring(motorista.cpf, 9, 11)}"
+                                        th:disabled="${trabalhoMotoristas == null or i.index >= trabalhoMotoristas.size()}">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr th:if="${motoristas.empty}">
+                            <td colspan="9">Nenhum motorista alocado para este trabalho.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </main>
+
+    <div id="replaceDriverModal" class="modal">
+        <div class="container-modal">
+            <span class="close-button">&times;</span>
+            <h2 id="replace-modal-title">Substituir Motorista</h2>
+            <form id="replaceDriverForm" method="post" th:action="@{/7 - info-trabalho/substituir-motorista}">
+                <input type="hidden" id="trabalhoMotoristaIdReplace" name="trabalhoMotoristaId" value="" />
+
+                <div class="form-group" id="form-group-motorista-atual">
+                    <div>
+                        <label for="currentDriverVaga">Vaga Atual:</label>
+                        <span id="currentDriverVagaDisplay"></span>
+                    </div>
+                    <div>
+                        <label for="currentDriverName">Motorista Atual:</label>
+                        <span id="currentDriverNameDisplay"></span>
+                    </div>
+                    <div>
+                        <label for="currentDriverCpf">CPF:</label>
+                        <span id="currentDriverCpfDisplay"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    <label for="newMotoristaId">Novo Motorista:</label>
+                    <select id="newMotoristaId" name="newMotoristaId" required>
+                        <option value="">Selecione um motorista</option>
+                        <option th:each="driver : ${availableDrivers}"
+                                th:value="${driver.id}"
+                                th:text="${ ' Vaga: ' + driver.vaga + ' - ' + ' Nome: ' + driver.nome}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="submit" class="confirm">Substituir</button>
+                    <button type="button" class="cancel" onclick="closeModal(document.getElementById('replaceDriverModal'))">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/formatarValores.js}"></script>
+    <script th:src="@{/js/copiar.js}"></script>
+    <script th:src="@{/js/modais.js}"></script>
+</body>
+</html>

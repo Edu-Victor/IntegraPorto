@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Em Andamento</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/62178003c7.js" crossorigin="anonymous"></script>
+</head>
+<body class="no-transition">
+
+    <nav id="sidenav" class="sidenav">
+        <div>
+            <a th:href="@{/index}" class="logo-link">
+                <span class="logo">IntegraPorto</span>
+            </a>
+
+            <div class="sidenav-item">
+                <a class="sidenav-dropdown-toggle">
+                    <i class="fa-solid fa-address-card"></i>
+                    <span>Cadastros</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+                </a>
+                <div class="submenu-container">
+                    <a th:href="@{/cadastromotorista}" class="submenu-link">Motoristas</a>
+                    <a th:href="@{/cadastrotrabalho}" class="submenu-link">Trabalhos</a>
+                </div>
+            </div>
+
+            <div class="sidenav-item">
+                <a class="sidenav-dropdown-toggle">
+                    <i class="fa-solid fa-list"></i>
+                    <span>Serviços</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+                </a>
+                <div class="submenu-container">
+                    <a th:href="@{/emandamento}" class="submenu-link">Em Andamento</a>
+                    <a th:href="@{/concluidos}" class="submenu-link">Concluídos</a>
+                </div>
+            </div>
+
+            </div>
+
+        <form th:action="@{/logout}" method="post" class="icon-exit">
+            <button type="submit" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Sair</span>
+            </button>
+        </form>
+    </nav>
+    
+    <main id="main-content" class="main-content">
+        <button id="toggle-btn" class="control-btn toggle-btn">
+            <i class="material-icons">menu</i>
+        </button>
+        <button id="theme-toggle" class="control-btn theme-toggle">
+            <i class="material-icons">dark_mode</i>
+        </button>
+
+        <header>
+            <h1>Painel de Serviços em Andamento</h1>
+            <p>Acompanhe os trabalhos que estão sendo executados no momento.</p>
+        </header>
+
+        <section>
+            <div class="header-section">
+                <h2>Relação de Trabalho</h2>
+            </div>
+            
+            <div class="container-tabela">
+                <table class="tabela">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Transportadora</th>
+                            <th>Operação</th>
+                            <th>Quantidade</th>
+                            <th>Janelas por Hora</th>
+                            <th>Inicio</th>
+                            <th>Termino</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="trabalho: ${trabalhos}" th:onclick="|window.location.href='@{/7 - info-trabalho/{id}(id=${trabalho.id})}'|">
+                            <td th:text="${trabalho.id}" ></td>
+                            <td th:text="${trabalho.transportadora}"></td>
+                            <td th:text="${trabalho.operacao}"></td>
+                            <td th:text="${trabalho.qt_container}"></td>
+                            <td th:text="${trabalho.janelas}"></td>
+                            <td th:text="${#temporals.format(trabalho.dt_recebimento, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td th:text="${#temporals.format(trabalho.dt_termino, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td>
+                                <button class="btn-editar" th:data-id="${trabalho.id}" onclick="event.stopPropagation();"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-excluir" th:data-id="${trabalho.id}" onclick="event.stopPropagation();"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div id="modalGeral" class="modal">
+        <div class="container-modal">
+            <span class="close-button">&times;</span>
+            <h2 id="modal-title"></h2>
+            <form id="formDados" method="post" onsubmit="formatarValor('valor')">
+                <input type="hidden" id="id" name="id">
+                <div class="form-group"><label for="transportadora">Transportadora:</label><input type="text" id="transportadora" name="transportadora" required></div>
+                <div class="form-group"><label for="booking">Booking:</label><input type="text" id="booking" name="booking" required></div>
+                <div class="form-group"><label for="navio">Navio:</label><input type="text" id="navio" name="navio" required></div>
+                <div class="form-group">
+                    <label for="operacao">Operação:</label>
+                    <select id="operacao" name="operacao" required>
+                        <option value="" disabled selected>Selecione a operação</option>
+                        <option value="Descarga Intermunicipal">Descarga Intermunicipal</option>
+                        <option value="Descarga Municipal">Descarga Municipal</option>
+                        <option value="Remoção Intermunicipal">Remoção Intermunicipal</option>
+                        <option value="Remoção Municipal">Remoção Municipal</option>
+                        <option value="Embarque Intermunicipal">Embarque Intermunicipal</option>
+                        <option value="Embarque Municipal">Embarque Municipal</option>
+                        <option value="Smagalhaes Intermunicipal">Smagalhaes Intermunicipal</option>
+                        <option value="Smagalhaes Municipal">Smagalhaes Municipal</option>
+                        <option value="Genset Intermunicipal">Genset Intermunicipal</option>
+                        <option value="Genset Municipal">Genset Municipal</option>
+                        <option value="Isotanque">Isotanque</option>
+                        <option value="Rodoviário">Rodoviário</option>
+                        <option value="Cross/Azlog">Cross/Azlog</option>
+                        <option value="Off Hire">Off Hire</option>
+                    </select>
+                </div>
+                <div class="form-group"><label for="coleta">Local de Coleta:</label><input type="text" id="coleta" name="coleta" required></div>
+                <div class="form-group"><label for="entrega">Local de Entrega:</label><input type="text" id="entrega" name="entrega" required></div>
+                <div class="form-group"><label for="dt_recebimento">Data de Recebimento:</label><input type="datetime-local" id="dt_recebimento" name="dt_recebimento"></div>
+                <div class="form-group"><label for="dt_termino">Data de Termino:</label><input type="datetime-local" id="dt_termino" name="dt_termino"></div>
+                <div class="form-group"><label for="tipo_container">Tipo de Container:</label><input type="text" id="tipo_container" name="tipo_container"></div>
+                <div class="form-group"><label for="qt_container">Quantidade de Container:</label><input type="text" id="qt_container" name="qt_container"></div>
+                <div class="form-group"><label for="valor">Valor:</label><input type="text" id="valor" name="valor" oninput="formatarInput(this)"></div>
+                <div class="form-group"><label for="janelas">Janelas por Hora:</label><input type="text" id="janelas" name="janelas"></div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status" name="status">
+                        <option value="Concluido">Concluido</option>
+                        <option value="Em-Andamento">Em-Andamento</option>
+                    </select>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="submit" class="confirm">Salvar</button>
+                    <button type="button" class="cancel">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal">
+        <div class="container-modal" id="container-modal-delete">
+            <span class="close-button">&times;</span>
+            <h2>Confirmar Exclusão</h2>
+            <p>Você tem certeza que deseja excluir este motorista?</p>
+            <div class="modal-buttons">
+                <button id="confirmDelete" class="confirm">Sim, Excluir</button>
+                <button id="cancelDelete" class="cancel">Não</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/modais.js}"></script>
+    <script th:src="@{/js/formatarValores.js}"></script>
+
+</body>
+</html>

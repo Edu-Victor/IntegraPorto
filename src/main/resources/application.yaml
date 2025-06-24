@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    platform: postgres
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driverClassName: org.postgresql.Driver
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 5
+      idle-timeout: 30000
+      leak-detection-threshold: 60000
+      connection-timeout: 30000
+
+  sql:
+    init:
+      schema-locations: classpath:/schema-postgresql.sql
+      mode: always
+      platform: postgres
+
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        connection.provider_disables_autocommit: true
+        jdbc.batch_size: 20

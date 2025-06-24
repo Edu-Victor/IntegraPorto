@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/aviso.css}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/62178003c7.js" crossorigin="anonymous"></script>
+</head>
+<body class="no-transition">
+
+    <nav id="sidenav" class="sidenav">
+        <div>
+            <a th:href="@{/index}" class="logo-link">
+                <span class="logo">IntegraPorto</span>
+            </a>
+
+            <div class="sidenav-item">
+                <a class="sidenav-dropdown-toggle">
+                    <i class="fa-solid fa-address-card"></i>
+                    <span>Cadastros</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+                </a>
+                <div class="submenu-container">
+                    <a th:href="@{/cadastromotorista}" class="submenu-link">Motoristas</a>
+                    <a th:href="@{/cadastrotrabalho}" class="submenu-link">Trabalhos</a>
+                </div>
+            </div>
+
+            <div class="sidenav-item">
+                <a class="sidenav-dropdown-toggle">
+                    <i class="fa-solid fa-list"></i>
+                    <span>Serviços</span>
+                    <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+                </a>
+                <div class="submenu-container">
+                    <a th:href="@{/emandamento}" class="submenu-link">Em Andamento</a>
+                    <a th:href="@{/concluidos}" class="submenu-link">Concluídos</a>
+                </div>
+            </div>
+
+            </div>
+
+        <form th:action="@{/logout}" method="post" class="icon-exit">
+            <button type="submit" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Sair</span>
+            </button>
+        </form>
+    </nav>
+    
+    <main id="main-content" class="main-content">
+        <button id="toggle-btn" class="control-btn toggle-btn">
+            <i class="material-icons">menu</i>
+        </button>
+        <button id="theme-toggle" class="control-btn theme-toggle">
+            <i class="material-icons">dark_mode</i>
+        </button>
+
+        <header>
+            <h1>Painel Principal</h1>
+            <p>Monitore os avisos importantes e mantenha-se atualizado com as informações essenciais.</p>
+        </header>
+
+        <section>
+            <div class="header-section">
+                <h2>Avisos</h2>
+                <button id="btn-novo-aviso" class="btn-adicionar"> <i class="fa-solid fa-plus"></i> Adicionar
+                </button>
+            </div>
+
+            <div id="avisos-container" class="avisos-grid">
+                <div class="aviso-card" th:each="aviso : ${avisos}">
+                    <h3 th:text="${aviso.titulo}"></h3>
+                    <p th:text="${aviso.mensagem}"></p>
+                    <div class="aviso-actions">
+                        <button class="btn-editar-aviso" th:data-id="${aviso.id}"><i class="fa-solid fa-pen"></i> Editar</button>
+                        <button class="btn-excluir-aviso" th:data-id="${aviso.id}"><i class="fa-solid fa-trash"></i> Excluir</button>
+                    </div>
+                </div>
+                <p th:if="${avisos.empty}">Nenhum aviso cadastrado.</p>
+            </div>
+            
+        </section>
+    </main>
+
+    <div id="modalAviso" class="modal">
+        <div class="container-modal" id="container-modal-aviso">
+            <span class="close-button">&times;</span>
+            <h2 id="modal-aviso-title"></h2>
+            <form id="formAviso" method="post">
+                <input type="hidden" id="avisoId" name="id">
+                <div class="form-group">
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensagem">Mensagem:</label>
+                    <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="submit" class="confirm">Salvar</button>
+                    <button type="button" class="cancel">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal">
+        <div class="container-modal" id="container-modal-delete">
+            <span class="close-button">&times;</span>
+            <h2>Confirmar Exclusão</h2>
+            <p id="delete-message">Você tem certeza que deseja excluir este item?</p> <div class="modal-buttons">
+                <button id="confirmDelete" class="confirm">Sim, Excluir</button>
+                <button type="button" class="cancel">Não</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
+</body>
+</html>
