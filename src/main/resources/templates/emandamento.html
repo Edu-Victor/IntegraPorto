@@ -83,7 +83,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="trabalho: ${trabalhos}" th:onclick="|window.location.href='@{/7 - info-trabalho/{id}(id=${trabalho.id})}'|">
+                        <tr th:each="trabalho: ${trabalhos}" th:onclick="|window.location.href='@{/info-trabalho/{id}(id=${trabalho.id})}'|">
                             <td th:text="${trabalho.id}" ></td>
                             <td th:text="${trabalho.transportadora}"></td>
                             <td th:text="${trabalho.operacao}"></td>
